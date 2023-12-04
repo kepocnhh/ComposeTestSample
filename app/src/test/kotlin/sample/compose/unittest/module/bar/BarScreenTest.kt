@@ -1,4 +1,4 @@
-package sample.compose.unittest.module.foo
+package sample.compose.unittest.module.bar
 
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -11,11 +11,11 @@ import sample.compose.unittest.App
 import sample.compose.unittest.TestActivity
 import sample.compose.unittest.module.app.mockInjection
 import sample.compose.unittest.provider.MockLocalDataProvider
-import sample.compose.unittest.provider.mockContexts
 import sample.compose.unittest.setInjection
 
+
 @RunWith(RobolectricTestRunner::class)
-internal class FooScreenTest {
+internal class BarScreenTest {
     @get:Rule
     val rule = createAndroidComposeRule<TestActivity>()
 
@@ -23,13 +23,13 @@ internal class FooScreenTest {
     fun initialTextTest() {
         val initialText = "foobar"
         val injection = mockInjection(
-            local = MockLocalDataProvider(foo = initialText),
+            local = MockLocalDataProvider(bar = initialText),
         )
         App.setInjection(injection)
         rule.setContent {
-            FooScreen()
+            BarScreen()
         }
-        val isText = hasContentDescription("FooScreen:text")
+        val isText = hasContentDescription("BarScreen:text")
         rule.waitUntil {
             rule.onAllNodes(isText and hasText(initialText))
                 .fetchSemanticsNodes()
