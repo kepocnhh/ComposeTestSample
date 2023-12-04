@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
+import sample.compose.unittest.module.bar.BarScreen
 import sample.compose.unittest.module.foo.FooScreen
 
 internal class MainActivity : AppCompatActivity() {
@@ -20,6 +21,9 @@ internal class MainActivity : AppCompatActivity() {
             Column(modifier = Modifier.fillMaxSize()) {
                 Box(modifier = Modifier.weight(1f)) {
                     FooScreen()
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    BarScreen()
                 }
             }
         }
