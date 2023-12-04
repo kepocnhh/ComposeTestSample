@@ -1,4 +1,4 @@
-package sample.compose.unittest.module.bar
+package sample.compose.unittest.module.qux
 
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
@@ -14,21 +14,21 @@ import sample.compose.unittest.provider.MockLocalDataProvider
 import sample.compose.unittest.setInjection
 
 @RunWith(RobolectricTestRunner::class)
-internal class BarScreenTest {
+internal class QuxScreenTest {
     @get:Rule
     val rule = createAndroidComposeRule<TestActivity>()
 
     @Test(timeout = 10_000)
     fun initialTextTest() {
-        val initialText = "foobar"
+        val initialText = "foobar:qux"
         val injection = mockInjection(
-            local = MockLocalDataProvider(bar = initialText),
+            local = MockLocalDataProvider(qux = initialText),
         )
         App.setInjection(injection)
         rule.setContent {
-            BarScreen()
+            QuxScreen()
         }
-        val isText = hasContentDescription("BarScreen:text")
+        val isText = hasContentDescription("QuxScreen:text")
         rule.waitUntil {
             rule.onAllNodes(isText and hasText(initialText))
                 .fetchSemanticsNodes()

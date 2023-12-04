@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import sample.compose.unittest.module.bar.BarScreen
 import sample.compose.unittest.module.foo.FooScreen
+import sample.compose.unittest.module.qux.QuxScreen
 
 internal class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,9 @@ internal class MainActivity : AppCompatActivity() {
                 }
                 Box(modifier = Modifier.weight(1f)) {
                     BarScreen()
+                }
+                Box(modifier = Modifier.weight(1f)) {
+                    QuxScreen()
                 }
             }
         }
