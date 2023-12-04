@@ -62,6 +62,14 @@ android {
             manifestPlaceholders["buildType"] = name
             enableUnitTestCoverage = true
         }
+        getByName("release") {
+            applicationIdSuffix = ""
+            versionNameSuffix = ""
+            isMinifyEnabled = true
+            isShrinkResources = true
+            manifestPlaceholders["buildType"] = name
+            enableUnitTestCoverage = false
+        }
         create("examine") {
             val parent = getByName("release")
             initWith(parent)
@@ -92,6 +100,13 @@ fun checkCoverage(variant: ComponentIdentity) {
     tasks.getByName<Test>(taskUnitTest) {
         doLast {
             check(executionData.asFile.exists())
+            val report = layout.buildDirectory.get()
+                .dir("reports/tests/$name")
+                .file("index.html")
+                .asFile
+            if (report.exists()) {
+                println("Unit test report: ${report.absolutePath}")
+            }
         }
     }
     val taskCoverageReport = task<JacocoReport>(camelCase("assemble", variant.name, "CoverageReport")) {
@@ -164,6 +179,7 @@ androidComponents.onVariants { variant ->
             tasks.getByName<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>(camelCase("compile", variant.name, "UnitTest", "Kotlin")) {
                 kotlinOptions.jvmTarget = Version.jvmTarget
             }
+            checkCoverage(variant)
         }
         val checkManifestTask = task(camelCase("checkManifest", variant.name)) {
             dependsOn(camelCase("compile", variant.name, "Sources"))
