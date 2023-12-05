@@ -30,24 +30,6 @@ internal class FooScreenTest {
     }
 
     @Test(timeout = 10_000)
-    fun initialTextTest() {
-        val initialText = "foobar:foo"
-        val injection = mockInjection(
-            local = MockLocalDataProvider(foo = initialText),
-        )
-        App.setInjection(injection)
-        rule.setContent {
-            FooScreen()
-        }
-        val isText = hasContentDescription("FooScreen:text")
-        rule.waitUntil {
-            rule.onAllNodes(isText and hasText(initialText))
-                .fetchSemanticsNodes()
-                .size == 1
-        }
-    }
-
-    @Test(timeout = 10_000)
     fun clearTest() {
         val initialText = "foobar:foo"
         val injection = mockInjection(
@@ -68,6 +50,50 @@ internal class FooScreenTest {
         rule.onNode(isButton and isClear).performClick()
         rule.waitUntil {
             rule.onAllNodes(isText and hasText(""))
+                .fetchSemanticsNodes()
+                .size == 1
+        }
+    }
+
+    @Test(timeout = 10_000)
+    fun initialTextTest() {
+        val initialText = "foobar:foo"
+        val injection = mockInjection(
+            local = MockLocalDataProvider(foo = initialText),
+        )
+        App.setInjection(injection)
+        rule.setContent {
+            FooScreen()
+        }
+        val isText = hasContentDescription("FooScreen:text")
+        rule.waitUntil {
+            rule.onAllNodes(isText and hasText(initialText))
+                .fetchSemanticsNodes()
+                .size == 1
+        }
+    }
+
+    @Test(timeout = 10_000)
+    fun setTest() {
+        val initialText = "foobar:foo"
+        val injection = mockInjection(
+            local = MockLocalDataProvider(foo = initialText),
+        )
+        App.setInjection(injection)
+        rule.setContent {
+            FooScreen()
+        }
+        val isText = hasContentDescription("FooScreen:text")
+        rule.waitUntil {
+            rule.onAllNodes(isText and hasText(initialText))
+                .fetchSemanticsNodes()
+                .size == 1
+        }
+        val isButton = SemanticsMatcher.expectValue(SemanticsProperties.Role, Role.Button)
+        val isClear = hasContentDescription("FooScreen:set:text")
+        rule.onNode(isButton and isClear).performClick()
+        rule.waitUntil {
+            rule.onAllNodes(isText and hasText("foo"))
                 .fetchSemanticsNodes()
                 .size == 1
         }
