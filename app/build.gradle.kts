@@ -212,7 +212,6 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.compose.foundation:foundation:${Version.Android.compose}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("org.robolectric:robolectric:4.11.1")
     testImplementation("androidx.compose.ui:ui-test-junit4:${Version.Android.compose}")

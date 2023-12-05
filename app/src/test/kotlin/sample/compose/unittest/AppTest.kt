@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,6 +34,11 @@ import java.util.concurrent.atomic.AtomicReference
 internal class AppTest {
     @get:Rule
     val rule = createAndroidComposeRule<TestActivity>()
+
+    @Before
+    fun before() {
+        App.clearStores()
+    }
 
     @Test(timeout = 10_000)
     fun viewModelTest() {
