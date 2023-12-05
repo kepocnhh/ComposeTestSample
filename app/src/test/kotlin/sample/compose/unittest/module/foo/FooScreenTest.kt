@@ -7,12 +7,14 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import sample.compose.unittest.App
 import sample.compose.unittest.TestActivity
+import sample.compose.unittest.clearStores
 import sample.compose.unittest.module.app.mockInjection
 import sample.compose.unittest.provider.MockLocalDataProvider
 import sample.compose.unittest.setInjection
@@ -21,6 +23,11 @@ import sample.compose.unittest.setInjection
 internal class FooScreenTest {
     @get:Rule
     val rule = createAndroidComposeRule<TestActivity>()
+
+    @Before
+    fun before() {
+        App.clearStores()
+    }
 
     @Test(timeout = 10_000)
     fun initialTextTest() {
@@ -42,7 +49,7 @@ internal class FooScreenTest {
 
     @Test(timeout = 10_000)
     fun clearTest() {
-        val initialText = "foobar"
+        val initialText = "foobar:foo"
         val injection = mockInjection(
             local = MockLocalDataProvider(foo = initialText),
         )

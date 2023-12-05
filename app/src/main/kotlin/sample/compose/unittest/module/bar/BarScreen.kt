@@ -88,7 +88,7 @@ internal fun BarScreen() {
                     .fillMaxWidth()
                     .height(64.dp)
                     .clickable {
-                        viewModel.updateText("foo")
+                        viewModel.updateText("bar")
                     }
                     .wrapContentSize(),
                 text = "set",
