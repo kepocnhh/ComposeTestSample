@@ -1,6 +1,7 @@
 package sample.compose.unittest.module.qux
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -59,6 +62,36 @@ internal fun QuxScreen() {
                     .height(64.dp)
                     .wrapContentSize(),
                 text = text.orEmpty(),
+                style = TextStyle(color = Color.Black),
+            )
+            BasicText(
+                modifier = Modifier
+                    .semantics {
+                        role = Role.Button
+                        contentDescription = "QuxScreen:clear:text"
+                    }
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .clickable {
+                        viewModel.updateText("")
+                    }
+                    .wrapContentSize(),
+                text = "clear",
+                style = TextStyle(color = Color.Black),
+            )
+            BasicText(
+                modifier = Modifier
+                    .semantics {
+                        role = Role.Button
+                        contentDescription = "QuxScreen:set:text"
+                    }
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .clickable {
+                        viewModel.updateText("qux")
+                    }
+                    .wrapContentSize(),
+                text = "set",
                 style = TextStyle(color = Color.Black),
             )
         }
