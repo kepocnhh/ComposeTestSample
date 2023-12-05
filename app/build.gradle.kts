@@ -65,10 +65,11 @@ android {
         getByName("release") {
             applicationIdSuffix = ""
             versionNameSuffix = ""
-            isMinifyEnabled = true
-            isShrinkResources = true
             manifestPlaceholders["buildType"] = name
             enableUnitTestCoverage = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("src/$name/proguard-rules.pro"))
         }
         create("examine") {
             val parent = getByName("release")
@@ -79,6 +80,8 @@ android {
             }
             enableUnitTestCoverage = true
             testBuildType = name
+//            testProguardFiles.addAll(proguardFiles)
+            signingConfig = getByName("debug").signingConfig
         }
     }
 
