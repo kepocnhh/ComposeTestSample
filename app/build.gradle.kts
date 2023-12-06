@@ -1,4 +1,5 @@
 import com.android.build.api.variant.ComponentIdentity
+import com.android.build.gradle.internal.tasks.R8Task
 
 repositories {
     google()
@@ -69,7 +70,7 @@ android {
             enableUnitTestCoverage = false
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), file("src/$name/proguard-rules.pro"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
         }
         create("examine") {
             val parent = getByName("release")
@@ -78,9 +79,9 @@ android {
                 res.srcDir("src/${parent.name}/res")
                 kotlin.srcDir("src/${parent.name}/kotlin")
             }
+            applicationIdSuffix = ".$name"
             enableUnitTestCoverage = true
             testBuildType = name
-//            testProguardFiles.addAll(proguardFiles)
             signingConfig = getByName("debug").signingConfig
         }
     }
@@ -208,6 +209,11 @@ androidComponents.onVariants { variant ->
         tasks.getByName(camelCase("assemble", variant.name)) {
             dependsOn(checkManifestTask)
         }
+        if (variant.isMinifyEnabled) {
+            tasks.getByName<R8Task>(camelCase("minify", variant.name, "WithR8")) {
+                proguardConfigurations.add("-keepclassmembers class ${android.namespace}.module.**ViewModel { <init>(*); }")
+            }
+        }
     }
 }
 
@@ -215,7 +221,7 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.8.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.compose.foundation:foundation:${Version.Android.compose}")
+    testImplementation("androidx.compose.ui:ui-test-junit4:${Version.Android.compose}")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("org.robolectric:robolectric:4.11.1")
-    testImplementation("androidx.compose.ui:ui-test-junit4:${Version.Android.compose}")
 }
